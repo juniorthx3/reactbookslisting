@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faPlus} from '@fortawesome/free-solid-svg-icons'
 import { Button, Input} from 'reactstrap';
 
-function SearchAddBook() {
+function SearchAddBook(props) {
     return (
         <div className="search">
             <div>
-             <Button outline size="lg"><FontAwesomeIcon icon={faPlus} /></Button>
+             <Button outline size="lg" onClick={props.modalNewBook}><FontAwesomeIcon icon={faPlus} /></Button>
             </div>
             <div className="sameline">
              <Input type="text" style={{height:"40px", }} size="35" placeholder="Enter the name of the book" />

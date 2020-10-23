@@ -4,14 +4,16 @@ import Tablebooks from './Tablebooks'
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { Button} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 class Container extends Component {
     constructor(props) {
         super(props)
         this.state = {
-             books:[]
+             books:[],
+             modalNewBook:false
         }
+        this.toggleModalBook=this.toggleModalBook.bind(this);
     }
 
     componentDidMount(){
@@ -20,6 +22,9 @@ class Container extends Component {
                 this.setState({books:response.data})
                 console.log(this.state.books);
             })
+    }
+    toggleModalBook(){
+      this.setState({modalNewBook: true});
     }
     
     render() {
@@ -39,8 +44,18 @@ class Container extends Component {
         })
         return (
             <div id="container">
+      <Modal isOpen={this.state.modalNewBook} toggle={this.toggleModalBook}>
+        <ModalHeader toggle={this.toggleModalBook}>Modal title</ModalHeader>
+        <ModalBody>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={this.toggleModalBook}>Save</Button>{' '}
+          <Button color="secondary" onClick={this.toggleModalBook}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
                 <div>
-                    <SearchAddBook />
+                    <SearchAddBook modalNewBook={this.toggleModalBook} />
                     <Tablebooks books={books} />
                 </div>
           </div>
