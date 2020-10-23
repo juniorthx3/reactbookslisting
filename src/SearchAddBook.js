@@ -7,7 +7,7 @@ function SearchAddBook() {
     return (
         <div className="search">
             <div>
-             <Button size="lg"><FontAwesomeIcon icon={faPlus} /></Button>
+             <Button outline size="lg"><FontAwesomeIcon icon={faPlus} /></Button>
             </div>
             <div className="sameline">
              <Input type="text" style={{height:"40px", }} size="35" placeholder="Enter the name of the book" />
