@@ -1,11 +1,13 @@
 import React from 'react'
-import SearchBook from './SearchBook'
+import SearchAddBook from './SearchAddBook'
+import Tablebooks from './Tablebooks'
 
 function Container() {
     return (
         <div id="container">
            <div>
-            <SearchBook />
+            <SearchAddBook />
+            <Tablebooks />
            </div>
         </div>
     )

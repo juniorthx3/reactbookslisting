@@ -16,33 +16,25 @@ body{
     justify-content:center;
     color:white;
     margin-bottom:20px;
+    border:2px solid #D4A095;
+  }
+  .footer{
+    height:50px;
+    background-color:#D4A095;
+    margin-top:10px;
+    padding:0;
+    border:2px solid #D4A095;
   }
   .search{
    display:flex;
-   justify-content:center;
+   justify-content: space-around;
    margin:10px;
   }
-  input{
-    width:230px;
-    height:25px;
-    border-style: double
-  }
-  
-  .button{
-     height:31px;
-     width:60px;
-     background-color:#BB3417;
-     cursor:pointer;
-     border:none;
-    border-style: double
-  }
-  .button1{
-     height:35px;
-     width:100px;
-     margin:40px 10px;
-     font-size:14px;
-     background-color:green;
-     cursor:pointer;
+
+  .sameline{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   form{
@@ -52,13 +44,12 @@ body{
   }
 
  #container{
-      height:500px;
-      width:800px;
+      width:1200px;
       background-color:lightgray;
       display:flex;
       flex-direction: column;
       align-items: center;
-      text-align:center;
+      
   }
 
   .centerItem{

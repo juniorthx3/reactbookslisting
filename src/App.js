@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Header from './Header'
-import SearchBook from './SearchBook'
 import Container from './Container'
+import Footer from './Footer'
 
 export class App extends Component {
     constructor(props) {
@@ -25,6 +25,7 @@ export class App extends Component {
                 <div className="centerItem">
                  <Container />
                 </div>
+                <Footer />
             </React.Fragment>
         )
     }
