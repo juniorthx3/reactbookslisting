@@ -3,25 +3,12 @@ import Header from './Header'
 import Container from './Container'
 import Footer from './Footer'
 
-export class App extends Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            id:"",
-            title:"",
-            author:"",
-            releaseDate:"",
-            coverImage:""
-        }
-    }
+class App extends Component {
     
     render() {
         return (
             <React.Fragment>
                 <Header />
-                {/* 
-                <Book /> */}
                 <div className="centerItem">
                  <Container />
                 </div>
