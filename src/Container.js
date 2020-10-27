@@ -36,18 +36,20 @@ class Container extends Component {
     }
     
     addBook(){
-        axios.post("https://raw.githubusercontent.com/juniorthx3/booklisting/main/db.json", this.state.newBook)
+        axios.post("https://my-json-server.typicode.com/juniorthx3/booklisting", this.state.newBook)
         .then(response=>{
-           let {books}=this.state;
-           books.push(response.data);
-           this.setState({books, modalNewBook:false, newBook:{
-               id:'',title:'',author:'',date:''
-           }})
+            console.log(response);
+        //    let {books}=this.state;
+        //    books.push(response.data);
+        //    this.setState({books, modalNewBook:false, newBook:{
+        //        id:'',title:'',author:'',date:''
+        //    }})
         })
+        .catch(err=>console.log(err));
     }
     
     render() {
-        let books=this.state.books.map(book=>{
+        let books=this.state.books.map((book)=>{
             return (
                 <tr>
                      <td>{book.ID}</td>
