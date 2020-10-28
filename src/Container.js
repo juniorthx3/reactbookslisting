@@ -18,7 +18,7 @@ class Container extends Component {
                  id:'',
                  title:'',
                  author:'',
-                 date:''
+                 published:''
              }
         }
         this.toggleModalBook=this.toggleModalBook.bind(this);
@@ -26,39 +26,51 @@ class Container extends Component {
 
     componentDidMount(){
         axios.get("https://raw.githubusercontent.com/juniorthx3/booklisting/main/db.json")
-            .then(response=>{
-                this.setState({books:response.data})
-                console.log(this.state.books);
-            })
+             .then(response=>{ this.setState({books:response.data.books})})    
     }
+
     toggleModalBook(){
       this.setState({modalNewBook: !this.state.modalNewBook});
     }
     
     addBook(){
-        axios.post("https://my-json-server.typicode.com/juniorthx3/booklisting", this.state.newBook)
+        axios.post("https://my-json-server.typicode.com/juniorthx3/booklisting/books", this.state.newBook)
         .then(response=>{
-            console.log(response);
-        //    let {books}=this.state;
-        //    books.push(response.data);
-        //    this.setState({books, modalNewBook:false, newBook:{
-        //        id:'',title:'',author:'',date:''
-        //    }})
+            let {books}=this.state;
+            books.push(response.data);
+            this.setState({books, modalNewBook:false, newBook:{
+               id:'',title:'',author:'',published:''
+            }})
+             
         })
         .catch(err=>console.log(err));
     }
+
+    editBook(id, title, author, published){
+        console.log(title)
+    }
     
     render() {
-        let books=this.state.books.map((book)=>{
+        let books=this.state.books.map((book, id, index)=>{
             return (
                 <tr>
-                     <td>{book.ID}</td>
+                     <td>{book.id}</td>
                      <td>{book.title}</td>
                      <td>{book.author}</td>
                      <td>{book.published}</td>
                      <td>
-                         <ButtonComponent color="primary" size="sm" className="mr-2"><FontAwesomeIcon icon={faEdit} /></ButtonComponent>
-                         <ButtonComponent color="danger" size="sm"><FontAwesomeIcon icon={faTrash} /></ButtonComponent>
+                         <ButtonComponent color="primary" 
+                                          size="sm" 
+                                          className="mr-2"
+                                          toggleModalBook={this.editBook.bind(this, book.id, book.title, book.author,book.published)}
+                        >
+                                <FontAwesomeIcon icon={faEdit} />
+                        </ButtonComponent>
+                         <ButtonComponent color="danger" 
+                                          size="sm"
+                         >
+                                <FontAwesomeIcon icon={faTrash} />
+                        </ButtonComponent>
                      </td>
                  </tr>
             )
@@ -108,14 +120,21 @@ class Container extends Component {
                                              value={this.state.newBook.date} 
                                              handleChange={e=>{
                                                 let {newBook}=this.state;
-                                                newBook.date=e.target.value;
+                                                newBook.published=e.target.value;
                                                 this.setState({newBook})
                                             }}        
                         />
                     </ModalBody>
                     <ModalFooter>
-                        <ButtonComponent color="primary" toggleModalBook={this.addBook.bind(this)}><FontAwesomeIcon icon={faSave} /></ButtonComponent>
-                        <ButtonComponent olor="secondary" toggleModalBook={this.toggleModalBook}><FontAwesomeIcon icon={faPowerOff} /></ButtonComponent>
+                        <ButtonComponent color="primary" 
+                                         toggleModalBook={this.addBook.bind(this)}
+                        >
+                            <FontAwesomeIcon icon={faSave} /></ButtonComponent>
+                        <ButtonComponent color="secondary" 
+                                         toggleModalBook={this.toggleModalBook}
+                        >
+                            <FontAwesomeIcon icon={faPowerOff} />
+                        </ButtonComponent>
                     </ModalFooter>
                 </Modal>
                 <div>
