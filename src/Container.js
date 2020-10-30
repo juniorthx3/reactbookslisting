@@ -53,10 +53,19 @@ class Container extends Component {
     }
     updateBook(){
         let {title, author, published}=this.state.editBook;
-       axios.put("https://my-json-server.typicode.com/juniorthx3/booklisting/books" + this.state.editBook.id, {title, author, published})
+       axios.put("https://my-json-server.typicode.com/juniorthx3/booklisting/books/" + this.state.editBook.id, {title, author, published})
             .then(response=>{
-               console.log(response.data);
+                axios.get("https://raw.githubusercontent.com/juniorthx3/booklisting/main/db.json")
+                .then(response=>{ this.setState({books:response.data.books})})    
+                this.setState({modalEditBook:false, editBook:{id:'', title:'', author:'', published:''}})
             })
+    }
+    deleteBook(id){
+        axios.delete("https://my-json-server.typicode.com/juniorthx3/booklisting/books/" + id)
+             .then(response=>{
+                axios.get("https://raw.githubusercontent.com/juniorthx3/booklisting/main/db.json")
+                .then(response=>{ this.setState({books:response.data.books})})    
+             })
     }
     
     render() {
@@ -77,6 +86,7 @@ class Container extends Component {
                         </ButtonComponent>
                          <ButtonComponent color="danger" 
                                           size="sm"
+                                          toggleModalBook={this.deleteBook.bind(this, book.id)}
                          >
                                 <FontAwesomeIcon icon={faTrash} />
                         </ButtonComponent>
