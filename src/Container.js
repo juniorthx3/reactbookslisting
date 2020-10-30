@@ -198,7 +198,6 @@ class Container extends Component {
                         />
                     </ModalBody>
                     <ModalFooter>
-                        <button onClick={this.updateBook.bind(this)}>EDIT</button>
                         <ButtonComponent color="primary" 
                                          toggleModalBook={this.updateBook.bind(this)}
                         >
