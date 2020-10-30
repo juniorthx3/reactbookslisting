@@ -14,14 +14,12 @@ class Container extends Component {
         this.state = {
              books:[],
              modalNewBook:false,
-             newBook:{
-                 id:'',
-                 title:'',
-                 author:'',
-                 published:''
-             }
+             newBook:{id:'', title:'', author:'', published:''},
+             modalEditBook:false,
+             editBook:{id:'', title:'', author:'', published:''}
         }
         this.toggleModalBook=this.toggleModalBook.bind(this);
+        this.toggleModalEditBook=this.toggleModalEditBook.bind(this);
     }
 
     componentDidMount(){
@@ -31,6 +29,10 @@ class Container extends Component {
 
     toggleModalBook(){
       this.setState({modalNewBook: !this.state.modalNewBook});
+    }
+    
+    toggleModalEditBook(){
+        this.setState({modalEditBook: !this.state.modalEditBook});
     }
     
     addBook(){
@@ -47,7 +49,14 @@ class Container extends Component {
     }
 
     editBook(id, title, author, published){
-        console.log(title)
+        this.setState({editBook:{id, title, author, published}, modalEditBook: !this.state.modalEditBook})
+    }
+    updateBook(){
+        let {title, author, published}=this.state.editBook;
+       axios.put("https://my-json-server.typicode.com/juniorthx3/booklisting/books" + this.state.editBook.id, {title, author, published})
+            .then(response=>{
+               console.log(response.data);
+            })
     }
     
     render() {
@@ -77,6 +86,7 @@ class Container extends Component {
         })
         return (
             <div id="container">
+                {/* ADD A BOOK MODAL */}
                 <Modal isOpen={this.state.modalNewBook} toggle={this.toggleModalBook}>
                     <ModalHeader toggle={this.toggleModalBook} style={{color:"black"}}>Book Registration</ModalHeader>
                     <ModalBody>
@@ -89,7 +99,8 @@ class Container extends Component {
                                                  let {newBook}=this.state;
                                                  newBook.id=e.target.value;
                                                  this.setState({newBook})
-                                             }}                
+                                             }}   
+                                             disabled             
                         />
                         <InputGroupComponent icon={faBook} 
                                              type="text" 
@@ -132,6 +143,68 @@ class Container extends Component {
                             <FontAwesomeIcon icon={faSave} /></ButtonComponent>
                         <ButtonComponent color="secondary" 
                                          toggleModalBook={this.toggleModalBook}
+                        >
+                            <FontAwesomeIcon icon={faPowerOff} />
+                        </ButtonComponent>
+                    </ModalFooter>
+                </Modal>
+                {/* EDIT A BOOK MODAL */}
+                <Modal isOpen={this.state.modalEditBook} toggle={this.toggleModalEditBook}>
+                    <ModalHeader toggle={this.toggleModalEditBook} style={{color:"black"}}>Edit Book</ModalHeader>
+                    <ModalBody>
+                    <InputGroupComponent icon={faKey} 
+                                             type="text" 
+                                             name="id"
+                                             placeholder="Enter Book ID" 
+                                             value={this.state.editBook.id} 
+                                             handleChange={e=>{
+                                                 let {editBook}=this.state;
+                                                 editBook.id=e.target.value;
+                                                 this.setState({editBook})
+                                             }}                
+                        />
+                        <InputGroupComponent icon={faBook} 
+                                             type="text" 
+                                             name="title"
+                                             placeholder="Enter Book Title" 
+                                             value={this.state.editBook.title} 
+                                             handleChange={e=>{
+                                                let {editBook}=this.state;
+                                                editBook.title=e.target.value;
+                                                this.setState({editBook})
+                                            }}
+                        />
+                        <InputGroupComponent icon={faUserTie} 
+                                             type="text" 
+                                             name="author"
+                                             placeholder="Enter Name of Author" 
+                                             value={this.state.editBook.author} 
+                                             handleChange={e=>{
+                                                let {editBook}=this.state;
+                                                editBook.author=e.target.value;
+                                                this.setState({editBook})
+                                            }} 
+                        />
+                        <InputGroupComponent icon={faClock} 
+                                             type="date"
+                                             name="date"  
+                                             placeholder="Enter Published Date" 
+                                             value={this.state.editBook.date} 
+                                             handleChange={e=>{
+                                                let {editBook}=this.state;
+                                                editBook.published=e.target.value;
+                                                this.setState({editBook})
+                                            }}        
+                        />
+                    </ModalBody>
+                    <ModalFooter>
+                        <button onClick={this.updateBook.bind(this)}>EDIT</button>
+                        <ButtonComponent color="primary" 
+                                         toggleModalBook={this.updateBook.bind(this)}
+                        >
+                            <FontAwesomeIcon icon={faEdit} /></ButtonComponent>
+                        <ButtonComponent color="secondary" 
+                                         toggleModalBook={this.toggleModalEditBook}
                         >
                             <FontAwesomeIcon icon={faPowerOff} />
                         </ButtonComponent>
