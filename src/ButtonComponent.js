@@ -6,6 +6,7 @@ function ButtonComponent(props) {
         <React.Fragment>
             <Button color={props.color} 
                     size={props.size} 
+                    name={props.name}
                     className={props.className} 
                     onClick={props.toggleModalBook}
             >

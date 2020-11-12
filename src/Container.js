@@ -4,8 +4,8 @@ import Tablebooks from './Tablebooks'
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash, faBook, faUserTie, faClock, faKey, faSave, faPowerOff} from '@fortawesome/free-solid-svg-icons'
-import { Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
-import InputGroupComponent from './InputGroupComponent';
+import { Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
+import InputGroupComponent from './InputGroupComponent'
 import ButtonComponent from './ButtonComponent'
 
 class Container extends Component {
@@ -51,15 +51,19 @@ class Container extends Component {
     editBook(id, title, author, published){
         this.setState({editBook:{id, title, author, published}, modalEditBook: !this.state.modalEditBook})
     }
+
     updateBook(){
-        let {title, author, published}=this.state.editBook;
-       axios.put("https://my-json-server.typicode.com/juniorthx3/booklisting/books/" + this.state.editBook.id, {title, author, published})
+        let {id, title, author, published}=this.state.editBook;
+       axios.put("https://my-json-server.typicode.com/juniorthx3/booklisting/books/" + id, {title, author, published})
             .then(response=>{
-                axios.get("https://raw.githubusercontent.com/juniorthx3/booklisting/main/db.json")
-                .then(response=>{ this.setState({books:response.data.books})})    
-                this.setState({modalEditBook:false, editBook:{id:'', title:'', author:'', published:''}})
+                console.log(response.data);
+                // this.setState({newBook: response.data})
+                // axios.get("https://raw.githubusercontent.com/juniorthx3/booklisting/main/db.json")
+                // .then(response=>{ this.setState({books:response.data.books})})    
+                // this.setState({modalEditBook:false, editBook:{id:'', title:'', author:'', published:''}})
             })
     }
+
     deleteBook(id){
         axios.delete("https://my-json-server.typicode.com/juniorthx3/booklisting/books/" + id)
              .then(response=>{
@@ -67,11 +71,11 @@ class Container extends Component {
                 .then(response=>{ this.setState({books:response.data.books})})    
              })
     }
-    
+
     render() {
-        let books=this.state.books.map((book, id, index)=>{
+        let books=this.state.books.map((book)=>{
             return (
-                <tr>
+                <tr key={book.id}>
                      <td>{book.id}</td>
                      <td>{book.title}</td>
                      <td>{book.author}</td>
@@ -80,7 +84,7 @@ class Container extends Component {
                          <ButtonComponent color="primary" 
                                           size="sm" 
                                           className="mr-2"
-                                          toggleModalBook={this.editBook.bind(this, book.id, book.title, book.author,book.published)}
+                                          toggleModalBook={this.editBook.bind(this, book.id, book.title, book.author, book.published)}
                         >
                                 <FontAwesomeIcon icon={faEdit} />
                         </ButtonComponent>
@@ -105,21 +109,20 @@ class Container extends Component {
                                              name="id"
                                              placeholder="Enter Book ID" 
                                              value={this.state.newBook.id} 
-                                             handleChange={e=>{
+                                             handleChange={(event)=>{
                                                  let {newBook}=this.state;
-                                                 newBook.id=e.target.value;
+                                                 newBook.id=event.target.value;
                                                  this.setState({newBook})
-                                             }}   
-                                             disabled             
+                                             }}           
                         />
                         <InputGroupComponent icon={faBook} 
                                              type="text" 
                                              name="title"
                                              placeholder="Enter Book Title" 
                                              value={this.state.newBook.title} 
-                                             handleChange={e=>{
+                                             handleChange={event=>{
                                                 let {newBook}=this.state;
-                                                newBook.title=e.target.value;
+                                                newBook.title=event.target.value;
                                                 this.setState({newBook})
                                             }}
                         />
@@ -128,9 +131,9 @@ class Container extends Component {
                                              name="author"
                                              placeholder="Enter Name of Author" 
                                              value={this.state.newBook.author} 
-                                             handleChange={e=>{
+                                             handleChange={event=>{
                                                 let {newBook}=this.state;
-                                                newBook.author=e.target.value;
+                                                newBook.author=event.target.value;
                                                 this.setState({newBook})
                                             }} 
                         />
@@ -139,9 +142,9 @@ class Container extends Component {
                                              name="date"  
                                              placeholder="Enter Published Date" 
                                              value={this.state.newBook.date} 
-                                             handleChange={e=>{
+                                             handleChange={event=>{
                                                 let {newBook}=this.state;
-                                                newBook.published=e.target.value;
+                                                newBook.published=event.target.value;
                                                 this.setState({newBook})
                                             }}        
                         />
@@ -162,25 +165,25 @@ class Container extends Component {
                 <Modal isOpen={this.state.modalEditBook} toggle={this.toggleModalEditBook}>
                     <ModalHeader toggle={this.toggleModalEditBook} style={{color:"black"}}>Edit Book</ModalHeader>
                     <ModalBody>
-                    <InputGroupComponent icon={faKey} 
+                    {/* <InputGroupComponent icon={faKey} 
                                              type="text" 
                                              name="id"
                                              placeholder="Enter Book ID" 
                                              value={this.state.editBook.id} 
-                                             handleChange={e=>{
+                                             handleChange={event=>{
                                                  let {editBook}=this.state;
-                                                 editBook.id=e.target.value;
+                                                 editBook.id=event.target.value;
                                                  this.setState({editBook})
                                              }}                
-                        />
+                        /> */}
                         <InputGroupComponent icon={faBook} 
                                              type="text" 
                                              name="title"
                                              placeholder="Enter Book Title" 
                                              value={this.state.editBook.title} 
-                                             handleChange={e=>{
+                                             handleChange={event=>{
                                                 let {editBook}=this.state;
-                                                editBook.title=e.target.value;
+                                                editBook.title=event.target.value;
                                                 this.setState({editBook})
                                             }}
                         />
@@ -189,9 +192,9 @@ class Container extends Component {
                                              name="author"
                                              placeholder="Enter Name of Author" 
                                              value={this.state.editBook.author} 
-                                             handleChange={e=>{
+                                             handleChange={event=>{
                                                 let {editBook}=this.state;
-                                                editBook.author=e.target.value;
+                                                editBook.author=event.target.value;
                                                 this.setState({editBook})
                                             }} 
                         />
@@ -200,9 +203,9 @@ class Container extends Component {
                                              name="date"  
                                              placeholder="Enter Published Date" 
                                              value={this.state.editBook.date} 
-                                             handleChange={e=>{
+                                             handleChange={event=>{
                                                 let {editBook}=this.state;
-                                                editBook.published=e.target.value;
+                                                editBook.published=event.target.value;
                                                 this.setState({editBook})
                                             }}        
                         />
